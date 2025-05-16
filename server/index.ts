@@ -1,6 +1,7 @@
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import prisma from './src/lib/prisma'; // Ensure this exports PrismaClient
 
 
 
