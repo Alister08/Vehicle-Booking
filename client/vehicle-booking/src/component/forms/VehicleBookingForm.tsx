@@ -26,6 +26,7 @@ import { createBooking } from '@/actions/vehiclebooking';
 import { fetchVehicleTypes, fetchVehicles } from '@/actions/vehicleaction';
 
 import { vehicleBookingSchema } from '@/lib/zod/vehiclebooking';
+import DatePickerInput from '../UI/DatePickerInput';
 type FormValues = z.infer<typeof vehicleBookingSchema>;
 
 
@@ -274,20 +275,13 @@ export default function VehicleBookingForm() {
                       name="startDate"
                       control={control}
                       render={({ field }) => (
-                        <DatePicker
-                          label="Start"
-                          value={field.value ? dayjs(field.value) : null}
-                          onChange={val =>
-                            field.onChange(val ? val.toISOString() : '')
-                          }
-                          slotProps={{
-                            textField: {
-                              fullWidth: true,
-                              error: !!errors.startDate,
-                              helperText: errors.startDate?.message,
-                            },
-                          }}
-                        />
+                       <DatePickerInput
+                                              label="Start"
+                        value={field.value}
+                       onChange={field.onChange}
+                      error={!!errors.startDate}
+                       helperText={errors.startDate?.message}
+                     />
                       )}
                     />
                   </Grid>
@@ -296,22 +290,18 @@ export default function VehicleBookingForm() {
                       name="endDate"
                       control={control}
                       render={({ field }) => (
-                        <DatePicker
-                          label="End"
-                          value={field.value ? dayjs(field.value) : null}
-                          onChange={val =>
-                            field.onChange(val ? val.toISOString() : '')
-                          }
-                          slotProps={{
-                            textField: {
-                              fullWidth: true,
-                              error: !!errors.endDate,
-                              helperText: errors.endDate?.message,
-                            },
-                          }}
-                        />
-                      )}
-                    />
+              
+
+
+                       <DatePickerInput
+                                              label="End"
+                        value={field.value}
+                       onChange={field.onChange}
+                      error={!!errors.endDate}
+                       helperText={errors.endDate?.message}
+                     />
+                     )}
+                     />
                   </Grid>
                 </Grid>
               </Box>
