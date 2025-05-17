@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
-  TextField,
   RadioGroup,
   FormControlLabel,
   Radio,
@@ -14,23 +13,21 @@ import {
   FormHelperText,
   Paper,
 } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs }          from '@mui/x-date-pickers/AdapterDayjs';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import dayjs from 'dayjs';
+import { zodResolver }          from '@hookform/resolvers/zod';
+import * as z                   from 'zod';
 
-import { createBooking } from '@/actions/vehiclebooking';
-import { fetchVehicleTypes, fetchVehicles } from '@/actions/vehicleaction';
-
+import { createBooking }        from '@/actions/vehiclebooking';
+import { fetchVehicleTypes,
+         fetchVehicles }       from '@/actions/vehicleaction';
 import { vehicleBookingSchema } from '@/lib/zod/vehiclebooking';
-import DatePickerInput from '../UI/DatePickerInput';
+
+import DatePickerInput          from '../UI/DatePickerInput';
+import InputField               from '../UI/InputField';
+
 type FormValues = z.infer<typeof vehicleBookingSchema>;
-
-
-
 type VehicleType = { id: number; name: string; wheelCount: number };
 type Vehicle     = { id: number; modelName: string; typeId: number };
 
@@ -42,16 +39,16 @@ export default function VehicleBookingForm() {
   const [types, setTypes]       = useState<VehicleType[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
-  const methods = useForm({
+  const methods = useForm<FormValues>({
     resolver: zodResolver(vehicleBookingSchema),
     defaultValues: {
       firstName: '',
       lastName:  '',
-      wheels:    '4' as '2' | '4',
+      wheels:    '4',
       typeId:    '',
       vehicleId: '',
       startDate: '',
-      endDate:   ''
+      endDate:   '',
     }
   });
 
@@ -67,7 +64,6 @@ export default function VehicleBookingForm() {
   const wheels = watch('wheels');
   const typeId = watch('typeId');
 
-  // Fetch types when wheels changes
   useEffect(() => {
     if (!wheels) return setTypes([]);
     fetchVehicleTypes(wheels)
@@ -77,7 +73,6 @@ export default function VehicleBookingForm() {
     setValue('vehicleId', '');
   }, [wheels, setValue]);
 
-  // Fetch vehicles when type changes
   useEffect(() => {
     if (!typeId) return setVehicles([]);
     fetchVehicles(typeId)
@@ -88,11 +83,11 @@ export default function VehicleBookingForm() {
 
   const validateStep = async () => {
     switch (step) {
-      case 1: return trigger(['firstName', 'lastName']);
+      case 1: return trigger(['firstName','lastName']);
       case 2: return trigger('wheels');
       case 3: return trigger('typeId');
       case 4: return trigger('vehicleId');
-      case 5: return trigger(['startDate', 'endDate']);
+      case 5: return trigger(['startDate','endDate']);
       default: return true;
     }
   };
@@ -100,7 +95,7 @@ export default function VehicleBookingForm() {
   const onNext = async () => {
     if (await validateStep() && step < 5) setStep(s => s + 1);
   };
-  const onBack = () => { if (step > 1) setStep(s => s - 1) };
+  const onBack = () => { if (step > 1) setStep(s => s - 1); };
 
   const onSubmit = async (data: FormValues) => {
     await createBooking(data);
@@ -124,39 +119,36 @@ export default function VehicleBookingForm() {
 
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/* Step 1: Name */}
             {step === 1 && (
               <Box mb={4}>
                 <Typography variant="h6" gutterBottom>
                   What's your name?
                 </Typography>
                 <Grid container spacing={2}>
-                  <Grid  size={{xs:12,sm:6}} >
+                  <Grid size={{xs:12, sm:6}}>
                     <Controller
                       name="firstName"
                       control={control}
                       render={({ field }) => (
-                        <TextField
+                        <InputField
                           {...field}
                           label="First Name"
-                          fullWidth
-                          error={!!errors.firstName}
-                          helperText={errors.firstName?.message}
+                          required
+                          errorMessage={errors.firstName?.message}
                         />
                       )}
                     />
                   </Grid>
-                   <Grid  size={{xs:12,sm:6}} >
+                  <Grid size={{xs:12, sm:6}}>
                     <Controller
                       name="lastName"
                       control={control}
                       render={({ field }) => (
-                        <TextField
+                        <InputField
                           {...field}
                           label="Last Name"
-                          fullWidth
-                          error={!!errors.lastName}
-                          helperText={errors.lastName?.message}
+                          required
+                          errorMessage={errors.lastName?.message}
                         />
                       )}
                     />
@@ -165,7 +157,6 @@ export default function VehicleBookingForm() {
               </Box>
             )}
 
-            {/* Step 2: Wheels */}
             {step === 2 && (
               <Box mb={4}>
                 <Typography variant="h6" gutterBottom>
@@ -199,7 +190,6 @@ export default function VehicleBookingForm() {
               </Box>
             )}
 
-            {/* Step 3: Type */}
             {step === 3 && (
               <Box mb={4}>
                 <Typography variant="h6" gutterBottom>
@@ -231,7 +221,6 @@ export default function VehicleBookingForm() {
               </Box>
             )}
 
-            {/* Step 4: Model */}
             {step === 4 && (
               <Box mb={4}>
                 <Typography variant="h6" gutterBottom>
@@ -263,51 +252,46 @@ export default function VehicleBookingForm() {
               </Box>
             )}
 
-            {/* Step 5: Date Range */}
             {step === 5 && (
               <Box mb={4}>
                 <Typography variant="h6" gutterBottom>
                   Select date range
                 </Typography>
                 <Grid container spacing={2}>
-                <Grid  size={{xs:12,sm:6}} >
+                  <Grid size={{xs:12, sm:6}}>
                     <Controller
                       name="startDate"
                       control={control}
                       render={({ field }) => (
-                       <DatePickerInput
-                                              label="Start"
-                        value={field.value}
-                       onChange={field.onChange}
-                      error={!!errors.startDate}
-                       helperText={errors.startDate?.message}
-                     />
+                        <DatePickerInput
+                          label="Start"
+                          value={field.value}
+                          onChange={field.onChange}
+                          error={!!errors.startDate}
+                          helperText={errors.startDate?.message}
+                        />
                       )}
                     />
                   </Grid>
-        <Grid  size={{xs:12,sm:6}} >
+                  <Grid size={{xs:12, sm:6}}>
                     <Controller
                       name="endDate"
                       control={control}
                       render={({ field }) => (
-              
-
-
-                       <DatePickerInput
-                                              label="End"
-                        value={field.value}
-                       onChange={field.onChange}
-                      error={!!errors.endDate}
-                       helperText={errors.endDate?.message}
-                     />
-                     )}
-                     />
+                        <DatePickerInput
+                          label="End"
+                          value={field.value}
+                          onChange={field.onChange}
+                          error={!!errors.endDate}
+                          helperText={errors.endDate?.message}
+                        />
+                      )}
+                    />
                   </Grid>
                 </Grid>
               </Box>
             )}
 
-            {/* Navigation Buttons */}
             <Box display="flex" justifyContent="space-between">
               <Button
                 variant="outlined"
