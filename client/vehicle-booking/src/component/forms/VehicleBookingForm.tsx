@@ -352,27 +352,65 @@ export default function VehicleBookingForm() {
             <Box display="flex" justifyContent="space-between">
               <Button
                 type="button"
-                variant="outlined"
+  
                 onClick={(e) => { e.preventDefault(); onBack(); }}
                 disabled={step === 1 || isSubmitting}
+
+                sx={{
+                     backgroundColor: 'rgba(255,255,255,0.2)',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255,255,255,0.3)',
+    color: '#fff',
+    boxShadow: 'none',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: 'rgba(255,255,255,0.3)',
+      boxShadow: 'none',
+    },
+                  }}
               >
                 Back
+                 
               </Button>
 
               {step < 6 ? (
                 <Button
                   type="button"
-                  variant="contained"
+            
                   onClick={(e) => { e.preventDefault(); onNext(); }}
                   disabled={isSubmitting}
+                   sx={{
+                     backgroundColor: 'rgba(255,255,255,0.2)',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255,255,255,0.3)',
+    color: '#fff',
+    boxShadow: 'none',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: 'rgba(255,255,255,0.3)',
+      boxShadow: 'none',
+    },
+                  }}
                 >
                   Next
                 </Button>
               ) : (
                 <Button
                   type="submit"
-                  variant="contained"
+  
                   disabled={isSubmitting}
+                  sx={{
+                     backgroundColor: 'rgba(255,255,255,0.2)',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255,255,255,0.3)',
+    color: '#fff',
+    boxShadow: 'none',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: 'rgba(255,255,255,0.3)',
+      boxShadow: 'none',
+    },
+                  }}
                 >
                   Confirm
                 </Button>
