@@ -1,8 +1,7 @@
 import axios, { AxiosError } from 'axios';
 // import { encryptValue } from '../utils/encryptiondecryption'; // If needed
 
-// const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const API_URL = 'http://localhost:9000/api'; // Replace with your actual API URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const api = axios.create({
   baseURL: API_URL,

@@ -9,7 +9,7 @@ const app = express();
 
 // Enable CORS for frontend
 app.use(cors({
-    origin: 'http://localhost:3000', // Allow frontend domain
+    origin: process.env.MAIN_PUBLIC_DOMAIN, // Allow frontend domain
     methods: 'GET,POST,PUT,DELETE,PATCH',
     // allowedHeaders: 'Content-Type,Authorization',
     credentials: false, // Allow cookies and authentication headers

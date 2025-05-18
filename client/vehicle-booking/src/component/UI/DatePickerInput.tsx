@@ -11,6 +11,7 @@ export interface DatePickerInputProps {
   onChange: (newIso: string) => void;
   error?: boolean;
   helperText?: string;
+  minDateIso?: string;
 }
 
 /**
@@ -22,13 +23,19 @@ export default function DatePickerInput({
   onChange,
   error,
   helperText,
+    minDateIso,
 }: DatePickerInputProps) {
+
+  const minDate: Dayjs | undefined = minDateIso ? dayjs(minDateIso) : undefined;
+
+
   return (
     <DatePicker
       label={label}
       value={value ? dayjs(value) : null}
       onChange={(val: Dayjs | null) => onChange(val ? val.toISOString() : '')}
       disablePast
+       minDate={minDate}
       slotProps={{
         textField: {
           fullWidth: true,

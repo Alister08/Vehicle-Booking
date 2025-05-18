@@ -65,6 +65,7 @@ export default function VehicleBookingForm() {
   const wheels    = watch('wheels');
   const typeId    = watch('typeId');
   const vehicleId = watch('vehicleId');
+    const startDate = watch('startDate');
 
   // load types when wheels chosen
   useEffect(() => {
@@ -123,7 +124,7 @@ export default function VehicleBookingForm() {
       <Paper
         elevation={3}
         sx={{
-          maxWidth: 600,
+          maxWidth: {lg:'900px', sm:'600px', md: '600px', xs: '300px' },
           mx: 'auto',
           p: 4,
           borderRadius: 2,
@@ -287,6 +288,7 @@ export default function VehicleBookingForm() {
                         <DatePickerInput
                           label="End"
                           value={field.value}
+                          minDateIso={startDate}
                           onChange={field.onChange}
                           error={!!errors.endDate}
                           helperText={errors.endDate?.message}

@@ -18,7 +18,7 @@ export default function Home() {
         component="section"
         sx={{
           position: 'relative',
-          height: { xs: '50vh', md: '100vh' },
+          height: '100vh',
           backgroundImage: "url('/images/car-bg.jpg')", // ← swap in your image path
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -72,7 +72,7 @@ export default function Home() {
            backgroundImage: "url('/images/car-bg-2.jpg')", // ← swap in your image path
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-              height: { xs: '50vh', md: '100vh' },
+              height: '100vh',
         }}
       >
         <VehicleBookingForm />
