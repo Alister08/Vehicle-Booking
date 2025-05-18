@@ -5,7 +5,11 @@ import prisma from './src/lib/prisma'; // Ensure this exports PrismaClient
 import bookingRouter from './src/routes/booking/booking'; // Ensure this exports the booking router
 import vehicleTypeRouter from './src/routes/vehicletype/vehicletype'; // Ensure this exports the vehicle type router
 import vehicleRouter from './src/routes/vehicle/vehicle'; // Ensure this exports the vehicle router
+
+
+const port = process.env.PORT || 9000;
 const app = express();
+
 
 // Enable CORS for frontend
 app.use(cors({
@@ -24,6 +28,6 @@ app.use('/api/vehicle', vehicleRouter); // Use the vehicle router for vehicle-re
 
 
 // Start the server
-app.listen(9000, () => {
+app.listen(port, () => {
     console.log(`Server is running on port 9000`);
 });
